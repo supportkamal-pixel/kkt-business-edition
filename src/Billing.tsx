@@ -285,7 +285,7 @@ export default function Billing() {
                   <h3 className="text-kkt-gold font-cinzel tracking-widest text-sm">INVOICE PREVIEW</h3>
                   
                   {/* 20 Premium Templates Switcher (Scrollable) */}
-                  <div className="flex bg-white/5 rounded-lg p-1 border border-white/10 max-w-[400px] overflow-x-auto custom-scrollbar">
+                  <div className="flex bg-white/5 rounded-lg p-1 border border-white/10 max-w-100 overflow-x-auto custom-scrollbar">
                     <button onClick={() => setInvoiceTemplate("premium1")} className={`whitespace-nowrap px-3 py-1.5 text-[10px] font-bold tracking-widest rounded-md transition-all border border-kkt-gold/30 ${invoiceTemplate === "premium1" ? "bg-kkt-gold text-kkt-dark shadow-[0_0_15px_rgba(255,179,0,0.6)]" : "text-kkt-gold hover:bg-kkt-gold/10"}`}>💎 PREMIUM 1</button>
                     <button onClick={() => setInvoiceTemplate("premium2")} className={`whitespace-nowrap px-3 py-1.5 text-[10px] font-bold tracking-widest rounded-md transition-all ml-1 ${invoiceTemplate === "premium2" ? "bg-white text-black shadow-lg" : "text-gray-400 hover:text-white"}`}>PREMIUM 2</button>
                     <button onClick={() => setInvoiceTemplate("premium3")} className={`whitespace-nowrap px-3 py-1.5 text-[10px] font-bold tracking-widest rounded-md transition-all ml-1 ${invoiceTemplate === "premium3" ? "bg-white text-black shadow-lg" : "text-gray-400 hover:text-white"}`}>PREMIUM 3</button>

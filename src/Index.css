@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "tailwindcss/preflight";
+@tailwind utilities;
 
 @theme {
   --color-kkt-navy: #0D1B4B;

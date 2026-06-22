@@ -149,62 +149,66 @@ export default function Billing() {
               <span className="text-lg">📦</span> ITEM DETAILS
             </h3>
             
-            {/* Dynamic Table Header - Packed with Columns */}
-            <div className="grid grid-cols-12 gap-2 text-[9px] font-cinzel text-gray-500 tracking-wider mb-2 px-2">
-              <div className="col-span-3">ITEM NAME</div>
-              <div className="col-span-2">HSN/SAC</div>
-              <div className="col-span-1 text-center">QTY</div>
-              <div className="col-span-2 text-right">RATE (₹)</div>
-              <div className="col-span-1 text-center">DISC %</div>
-              <div className="col-span-1 text-center">GST %</div>
-              <div className="col-span-2 text-right">FINAL AMT (₹)</div>
-            </div>
-
-            {/* Dynamic Item Rows with Realtime Math Calculation and Hinglish Logic */}
-            {items.map((item) => {
-              // Row Level calculation for instant view
-              const gross = item.qty * item.rate;
-              const discAmt = gross * (item.discount || 0) / 100;
-              const taxable = gross - discAmt;
-              const tax = taxable * (item.gst || 0) / 100;
-              const rowFinalAmount = taxable + tax;
-
-              return (
-                <div key={item.id} className="grid grid-cols-12 gap-2 items-center mb-3 group/row bg-white/1 p-1 rounded-xl hover:bg-white/3 transition-all">
-                  <div className="col-span-3 relative flex items-center gap-2">
-                    {/* Trash icon jo hover par hi active hoga row delete karne ke liye */}
-                    <button 
-                      onClick={() => deleteItem(item.id)}
-                      disabled={items.length === 1}
-                      className="text-gray-600 hover:text-red-400 text-xs transition-colors disabled:opacity-20"
-                    >
-                      🗑️
-                    </button>
-                    <input type="text" placeholder="Item Name..." value={item.name} onChange={(e) => updateItem(item.id, 'name', e.target.value)} className="w-full bg-black/30 border border-white/5 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-kkt-gold/40 focus:bg-white/5" />
-                  </div>
-                  <div className="col-span-2">
-                    <input type="text" placeholder="HSN" value={item.hsn} onChange={(e) => updateItem(item.id, 'hsn', e.target.value)} className="w-full bg-black/30 border border-white/5 rounded-xl px-3 py-2 text-xs text-white text-center focus:outline-none focus:border-kkt-gold/40" />
-                  </div>
-                  <div className="col-span-1">
-                    <input type="number" min="1" value={item.qty} onChange={(e) => updateItem(item.id, 'qty', parseFloat(e.target.value) || 0)} className="w-full bg-black/30 border border-white/5 rounded-xl py-2 text-xs text-white text-center focus:outline-none focus:border-kkt-gold/40" />
-                  </div>
-                  <div className="col-span-2">
-                    <input type="number" placeholder="0.00" value={item.rate || ''} onChange={(e) => updateItem(item.id, 'rate', parseFloat(e.target.value) || 0)} className="w-full bg-black/30 border border-white/5 rounded-xl px-3 py-2 text-xs text-white text-right focus:outline-none focus:border-kkt-gold/40" />
-                  </div>
-                  <div className="col-span-1">
-                    <input type="number" min="0" max="100" placeholder="0" value={item.discount || ''} onChange={(e) => updateItem(item.id, 'discount', parseFloat(e.target.value) || 0)} className="w-full bg-black/30 border border-white/5 rounded-xl py-2 text-xs text-white text-center focus:outline-none focus:border-kkt-gold/40" />
-                  </div>
-                  <div className="col-span-1">
-                    <select value={item.gst} onChange={(e) => updateItem(item.id, 'gst', parseFloat(e.target.value))} className="w-full bg-black/30 border border-white/5 rounded-xl py-2 text-xs text-gray-300 text-center focus:outline-none focus:border-kkt-gold/40 appearance-none">
-                      <option value={18}>18%</option><option value={12}>12%</option><option value={5}>5%</option><option value={0}>0%</option>
-                    </select>
-                  </div>
-                  <div className="col-span-2 text-right text-gray-300 font-mono text-xs pr-2">
-                    {rowFinalAmount.toFixed(2)}
-                  </div>
+            {/* Dynamic Table Wrapper - Mobile Responsive */}
+            <div className="w-full overflow-x-auto custom-scrollbar pb-3">
+              <div className="min-w-[800px]">
+                
+                {/* Dynamic Table Header - Packed with Columns */}
+                <div className="grid grid-cols-12 gap-2 text-[9px] md:text-[10px] font-cinzel text-gray-500 tracking-wider mb-2 px-2">
+                  <div className="col-span-3">ITEM NAME</div>
+                  <div className="col-span-2">HSN/SAC</div>
+                  <div className="col-span-1 text-center">QTY</div>
+                  <div className="col-span-2 text-right">RATE (₹)</div>
+                  <div className="col-span-1 text-center">DISC %</div>
+                  <div className="col-span-1 text-center">GST %</div>
+                  <div className="col-span-2 text-right">FINAL AMT (₹)</div>
                 </div>
-              );
-            })}
+
+                {/* Dynamic Item Rows */}
+                {items.map((item) => {
+                  const gross = item.qty * item.rate;
+                  const discAmt = gross * (item.discount || 0) / 100;
+                  const taxable = gross - discAmt;
+                  const tax = taxable * (item.gst || 0) / 100;
+                  const rowFinalAmount = taxable + tax;
+
+                  return (
+                    <div key={item.id} className="grid grid-cols-12 gap-2 items-center mb-3 group/row bg-white/1 p-1 rounded-xl hover:bg-white/3 transition-all">
+                      <div className="col-span-3 relative flex items-center gap-2">
+                        <button 
+                          onClick={() => deleteItem(item.id)}
+                          disabled={items.length === 1}
+                          className="text-gray-600 hover:text-red-400 text-xs transition-colors disabled:opacity-20 shrink-0"
+                        >
+                          🗑️
+                        </button>
+                        <input type="text" placeholder="Item Name..." value={item.name} onChange={(e) => updateItem(item.id, 'name', e.target.value)} className="w-full bg-black/30 border border-white/5 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-kkt-gold/40 focus:bg-white/5" />
+                      </div>
+                      <div className="col-span-2">
+                        <input type="text" placeholder="HSN" value={item.hsn} onChange={(e) => updateItem(item.id, 'hsn', e.target.value)} className="w-full bg-black/30 border border-white/5 rounded-xl px-3 py-2 text-xs text-white text-center focus:outline-none focus:border-kkt-gold/40" />
+                      </div>
+                      <div className="col-span-1">
+                        <input type="number" min="1" value={item.qty} onChange={(e) => updateItem(item.id, 'qty', parseFloat(e.target.value) || 0)} className="w-full bg-black/30 border border-white/5 rounded-xl py-2 text-xs text-white text-center focus:outline-none focus:border-kkt-gold/40" />
+                      </div>
+                      <div className="col-span-2">
+                        <input type="number" placeholder="0.00" value={item.rate || ''} onChange={(e) => updateItem(item.id, 'rate', parseFloat(e.target.value) || 0)} className="w-full bg-black/30 border border-white/5 rounded-xl px-3 py-2 text-xs text-white text-right focus:outline-none focus:border-kkt-gold/40" />
+                      </div>
+                      <div className="col-span-1">
+                        <input type="number" min="0" max="100" placeholder="0" value={item.discount || ''} onChange={(e) => updateItem(item.id, 'discount', parseFloat(e.target.value) || 0)} className="w-full bg-black/30 border border-white/5 rounded-xl py-2 text-xs text-white text-center focus:outline-none focus:border-kkt-gold/40" />
+                      </div>
+                      <div className="col-span-1">
+                        <select value={item.gst} onChange={(e) => updateItem(item.id, 'gst', parseFloat(e.target.value))} className="w-full bg-black/30 border border-white/5 rounded-xl py-2 text-xs text-gray-300 text-center focus:outline-none focus:border-kkt-gold/40 appearance-none">
+                          <option value={18}>18%</option><option value={12}>12%</option><option value={5}>5%</option><option value={0}>0%</option>
+                        </select>
+                      </div>
+                      <div className="col-span-2 text-right text-gray-300 font-mono text-xs pr-2">
+                        {rowFinalAmount.toFixed(2)}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
             
             <button onClick={addItem} className="mt-2 text-[9px] font-cinzel font-bold tracking-[0.2em] text-kkt-greenLight hover:text-white px-4 py-2 border border-kkt-greenLight/30 rounded-xl bg-kkt-greenLight/5 hover:bg-kkt-greenLight/20 transition-colors">
               + ADD ANOTHER ITEM
@@ -219,7 +223,7 @@ export default function Billing() {
           {/* Left Block: Payment Mode Matrix Selection */}
           <div className="lg:col-span-5 p-4 bg-white/1 border border-white/5 rounded-2xl">
             <label className="text-[9px] font-cinzel text-gray-500 tracking-[0.2em] block mb-3">⚡ PAYMENT MODE MATRIX</label>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
               {["Cash", "UPI / Dynamic QR", "Credit (Udhaar)"].map((mode) => (
                 <button
                   key={mode}
@@ -279,35 +283,31 @@ export default function Billing() {
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 bg-black/80 backdrop-blur-md transition-all">
             <div className="bg-white w-full max-w-4xl h-full max-h-[90vh] rounded-2xl shadow-2xl overflow-hidden flex flex-col transform transition-all duration-300 animate-in fade-in zoom-in-95">
               
-              {/* Action Bar (Dark) */}
-              <div className="bg-linear-to-r from-kkt-navy to-kkt-dark p-4 flex justify-between items-center shadow-lg z-10">
-                <div className="flex items-center gap-4">
-                  <h3 className="text-kkt-gold font-cinzel tracking-widest text-sm">INVOICE PREVIEW</h3>
+              {/* Action Bar (Dark) - Fully Mobile Responsive */}
+              <div className="bg-linear-to-r from-kkt-navy to-kkt-dark p-4 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 shadow-lg z-10">
+                <div className="flex flex-col md:flex-row items-start md:items-center gap-4 w-full">
+                  <h3 className="text-kkt-gold font-cinzel tracking-widest text-sm hidden md:block">PREVIEW</h3>
                   
                   {/* 20 Premium Templates Switcher (Scrollable) */}
-                  <div className="flex bg-white/5 rounded-lg p-1 border border-white/10 max-w-100 overflow-x-auto custom-scrollbar">
+                  <div className="flex bg-white/5 rounded-lg p-1 border border-white/10 w-full md:max-w-md overflow-x-auto custom-scrollbar">
                     <button onClick={() => setInvoiceTemplate("premium1")} className={`whitespace-nowrap px-3 py-1.5 text-[10px] font-bold tracking-widest rounded-md transition-all border border-kkt-gold/30 ${invoiceTemplate === "premium1" ? "bg-kkt-gold text-kkt-dark shadow-[0_0_15px_rgba(255,179,0,0.6)]" : "text-kkt-gold hover:bg-kkt-gold/10"}`}>💎 PREMIUM 1</button>
                     <button onClick={() => setInvoiceTemplate("premium2")} className={`whitespace-nowrap px-3 py-1.5 text-[10px] font-bold tracking-widest rounded-md transition-all ml-1 ${invoiceTemplate === "premium2" ? "bg-white text-black shadow-lg" : "text-gray-400 hover:text-white"}`}>PREMIUM 2</button>
                     <button onClick={() => setInvoiceTemplate("premium3")} className={`whitespace-nowrap px-3 py-1.5 text-[10px] font-bold tracking-widest rounded-md transition-all ml-1 ${invoiceTemplate === "premium3" ? "bg-white text-black shadow-lg" : "text-gray-400 hover:text-white"}`}>PREMIUM 3</button>
-                    <span className="whitespace-nowrap px-3 py-1.5 text-[10px] text-gray-600 font-bold tracking-widest ml-1">...UPTO 20</span>
                   </div>
 
-                  {/* Dynamic Color Selector (Logo Color Simulator) */}
-                  <div className="flex items-center gap-2 bg-black/50 px-3 py-1.5 rounded-lg border border-white/10">
+                  {/* Dynamic Color Selector */}
+                  <div className="flex items-center gap-2 bg-black/50 px-3 py-1.5 rounded-lg border border-white/10 shrink-0">
                     <span className="text-[9px] font-cinzel text-gray-400 tracking-widest">LOGO COLOR:</span>
-                    <input 
-                      type="color" 
-                      value={brandColor} 
-                      onChange={(e) => setBrandColor(e.target.value)}
-                      className="w-5 h-5 rounded cursor-pointer bg-transparent border-0 p-0"
-                    />
+                    <input type="color" value={brandColor} onChange={(e) => setBrandColor(e.target.value)} className="w-5 h-5 rounded cursor-pointer bg-transparent border-0 p-0" />
                   </div>
                 </div>
-                <div className="flex gap-4">
-                  <button className="px-5 py-2 bg-linear-to-r from-kkt-goldDark to-kkt-gold text-kkt-dark font-bold font-cinzel tracking-widest text-xs rounded-lg hover:scale-105 hover:shadow-[0_0_15px_rgba(255,179,0,0.4)] transition-all">
+                
+                {/* Print & Close Buttons */}
+                <div className="flex gap-3 w-full xl:w-auto justify-end">
+                  <button className="px-4 py-2 bg-linear-to-r from-kkt-goldDark to-kkt-gold text-kkt-dark font-bold font-cinzel tracking-widest text-[10px] md:text-xs rounded-lg hover:scale-105 hover:shadow-[0_0_15px_rgba(255,179,0,0.4)] transition-all">
                     🖨️ PRINT
                   </button>
-                  <button onClick={() => setShowPreview(false)} className="px-5 py-2 bg-white/10 text-white border border-white/20 font-cinzel tracking-widest text-xs rounded-lg hover:bg-white/20 transition-colors">
+                  <button onClick={() => setShowPreview(false)} className="px-4 py-2 bg-white/10 text-white border border-white/20 font-cinzel tracking-widest text-[10px] md:text-xs rounded-lg hover:bg-white/20 transition-colors">
                     ✕ CLOSE
                   </button>
                 </div>

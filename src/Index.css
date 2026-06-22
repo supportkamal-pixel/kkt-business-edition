@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@theme {
+  --color-kkt-navy: #0D1B4B;
+  --color-kkt-navyLight: #1A237E;
+  --color-kkt-gold: #FFB300;
+  --color-kkt-goldDark: #E65100;
+  --color-kkt-green: #2E7D32;
+  --color-kkt-greenLight: #A5D6A7;
+  --color-kkt-dark: #060810;
+  --color-kkt-darkCard: rgba(255,255,255,0.02);
+  --font-cinzel: 'Cinzel', serif;
+  --font-tiro: 'Tiro Devanagari Hindi', serif;
+}

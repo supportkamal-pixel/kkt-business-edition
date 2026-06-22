@@ -151,7 +151,7 @@ export default function Billing() {
             
             {/* Dynamic Table Wrapper - Mobile Responsive */}
             <div className="w-full overflow-x-auto custom-scrollbar pb-3">
-              <div className="min-w-[800px]">
+              <div className="min-w-200">
                 
                 {/* Dynamic Table Header - Packed with Columns */}
                 <div className="grid grid-cols-12 gap-2 text-[9px] md:text-[10px] font-cinzel text-gray-500 tracking-wider mb-2 px-2">
